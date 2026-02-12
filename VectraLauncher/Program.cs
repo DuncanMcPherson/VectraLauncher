@@ -1,10 +1,136 @@
-﻿namespace VectraLauncher
+﻿using System.Reflection;
+
+namespace VectraLauncher;
+
+internal static class Program
 {
-    internal static class Program
+    private static int Main(string[] args)
     {
-        private static void Main(string[] args)
+        if (args.Length == 0 || args[0] is "--help" or "-h" or "help")
         {
-            Console.WriteLine("Hello, World!");
+            ShowHelp();
+            return 0;
         }
+
+        if (args[0] is "--version" or "-v" or "version")
+        {
+            ShowVersion();
+            return 0;
+        }
+
+        return args[0].ToLowerInvariant() switch
+        {
+            "install" => HandleInstall(args[1..]),
+            "update" => HandleUpdate(args[1..]),
+            "list" => HandleList(args[1..]),
+            "use" => HandleUse(args[1..]),
+            "uninstall" => HandleUninstall(args[1..]),
+            "self" => HandleSelf(args[1..]),
+            _ => PassToCompiler(args)
+        };
+    }
+
+    private static void ShowHelp()
+    {
+        var version = Assembly.GetExecutingAssembly()
+            .GetName().Version;
+        Console.WriteLine($"VectraLauncher v{version}");
+        Console.WriteLine("A version manager for the Vectra compiler");
+        Console.WriteLine();
+        Console.WriteLine("Usage: vecc [command] [options]");
+        Console.WriteLine();
+        Console.WriteLine("Commands:");
+        Console.WriteLine("  install <version>    Install the specified version of the Vectra compiler");
+        Console.WriteLine("  update               Install the most recent version of the Vectra compiler");
+        Console.WriteLine("  list                 List all available and installed versions");
+        Console.WriteLine("  use <version>        Set the specified version as the active compiler");
+        Console.WriteLine("  uninstall <version>  Remove the specified version from your system");
+        Console.WriteLine("  self install         Add VectraLauncher to your system PATH");
+        Console.WriteLine();
+        Console.WriteLine("Options:");
+        Console.WriteLine("  --help, -h           Show this help message");
+        Console.WriteLine("  --version, -v        Show version information");
+        Console.WriteLine();
+        Console.WriteLine("Examples:");
+        Console.WriteLine("  vecc install 1.2.3");
+        Console.WriteLine("  vecc list");
+        Console.WriteLine("  vecc update");
+        Console.WriteLine("  vecc use 1.2.3");
+        Console.WriteLine("  vecc uninstall 1.2.3");
+        Console.WriteLine();
+        Console.WriteLine("Any other commands will be passed to the active Vectra compiler.");
+    }
+
+    private static void ShowVersion()
+    {
+        var version = Assembly.GetExecutingAssembly()
+            .GetName().Version;
+        Console.WriteLine($"VectraLauncher v{version}");
+    }
+
+    private static int HandleInstall(string[] args)
+    {
+        Console.WriteLine("Install command - Not yet implemented");
+        return 0;
+    }
+
+    private static int HandleUpdate(string[] args)
+    {
+        Console.WriteLine("Update command - Not yet implemented");
+        return 0;
+    }
+
+    private static int HandleList(string[] args)
+    {
+        Console.WriteLine("List command - Not yet implemented");
+        return 0;
+    }
+
+    private static int HandleUse(string[] args)
+    {
+        Console.WriteLine("Use command - Not yet implemented");
+        return 0;
+    }
+
+    private static int HandleUninstall(string[] args)
+    {
+        Console.WriteLine("Uninstall command - Not yet implemented");
+        return 0;
+    }
+
+    private static int HandleSelf(string[] args)
+    {
+        if (args.Length == 0)
+        {
+            Console.WriteLine("Error: 'self' command requires a subcommand");
+            Console.WriteLine("Available: self install");
+            return 1;
+        }
+
+        return args[0].ToLowerInvariant() switch
+        {
+            "install" => HandleSelfInstall(args[1..]),
+            _ => HandleUnknownSelfCommand(args[0])
+        };
+    }
+
+    private static int HandleSelfInstall(string[] args)
+    {
+        Console.WriteLine("Self install command - Not yet implemented");
+        return 0;
+    }
+
+    private static int HandleUnknownSelfCommand(string command)
+    {
+        Console.WriteLine($"Error: Unknown self command '{command}'");
+        Console.WriteLine("Available: self install");
+        return 1;
+    }
+
+    private static int PassToCompiler(string[] args)
+    {
+        Console.WriteLine("Compiler pass-through - Not yet implemented");
+        Console.WriteLine($"Would execute compiler with: {string.Join(" ", args)}");
+        return 0;
     }
 }
