@@ -2,7 +2,6 @@
 ![GitHub Release](https://img.shields.io/github/v/release/DuncanMcPherson/VectraLauncher)
 [![Release](https://github.com/DuncanMcPherson/VectraLauncher/actions/workflows/release.yml/badge.svg)](https://github.com/DuncanMcPherson/VectraLauncher/actions/workflows/release.yml)
 ![GitHub License](https://img.shields.io/github/license/DuncanMcPherson/VectraLauncher)
-![GitHub Repo Size](https://img.shields.io/github/repo-size/DuncanMcPherson/VectraLauncher)
 ![GitHub Release Date](https://img.shields.io/github/release-date/DuncanMcPherson/VectraLauncher)
 
 ## Overview
