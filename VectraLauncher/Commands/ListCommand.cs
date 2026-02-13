@@ -11,16 +11,21 @@ internal static class ListCommand
     public static async Task<int> ExecuteAsync(string[] args)
     {
         var showAll = args.Contains("--all");
+        var localOnly = args.Contains("--local");
 
         try
         {
-            var availableVersions = await FetchAvailableVersionsAsync();
+            var availableVersions = new List<string>();
+            if (!localOnly)
+                availableVersions = await FetchAvailableVersionsAsync();
 
             var config = VersionManager.LoadConfiguration();
             var installedVersions = new HashSet<string>(
                 config.InstalledVersions.Select(v => v.Version));
-
-            DisplayVersionTable(availableVersions, installedVersions, config.ResolvedActiveVersion, showAll);
+            if (!localOnly)
+                DisplayVersionTable(availableVersions, installedVersions, config.ResolvedActiveVersion, showAll);
+            else
+                DisplayLocalVersionTable(installedVersions, config.ResolvedActiveVersion);
             return 0;
         }
         catch (Exception ex)
@@ -68,6 +73,30 @@ internal static class ListCommand
             Console.WriteLine();
             Console.WriteLine($"Showing {DefaultVersionLimit} most recent versions. " +
                               "Use 'vecc list --all' to see all available versions.");
+        }
+    }
+
+    private static void DisplayLocalVersionTable(HashSet<string> installedVersions, string activeVersion)
+    {
+        Console.WriteLine("Installed Vectra Compiler Versions:");
+        Console.WriteLine();
+        Console.WriteLine("Version    Status");
+        Console.WriteLine("---------  --------------------");
+
+        if (installedVersions.Count == 0)
+        {
+            Console.WriteLine("No versions installed");
+            return;
+        }
+
+        foreach (var version in installedVersions.OrderByDescending(v =>
+                 {
+                     SemanticVersion.TryParse(v, out var semver);
+                     return semver;
+                 }))
+        {
+            var status = GetVersionStatus(version, installedVersions, activeVersion);
+            Console.WriteLine($"{version,-10} {status}");
         }
     }
 
