@@ -21,7 +21,7 @@ internal static class Program
 
         return args[0].ToLowerInvariant() switch
         {
-            "install" => HandleInstall(args[1..]),
+            "install" => await InstallCommand.ExecuteAsync(args[1..]),
             "update" => HandleUpdate(args[1..]),
             "list" => await ListCommand.ExecuteAsync(args[1..]),
             "use" => HandleUse(args[1..]),
@@ -67,12 +67,6 @@ internal static class Program
         var version = Assembly.GetExecutingAssembly()
             .GetName().Version;
         Console.WriteLine($"VectraLauncher v{version}");
-    }
-
-    private static int HandleInstall(string[] args)
-    {
-        Console.WriteLine("Install command - Not yet implemented");
-        return 0;
     }
 
     private static int HandleUpdate(string[] args)
