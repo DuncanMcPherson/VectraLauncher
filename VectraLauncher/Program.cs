@@ -1,10 +1,11 @@
 ﻿using System.Reflection;
+using VectraLauncher.Commands;
 
 namespace VectraLauncher;
 
 internal static class Program
 {
-    private static int Main(string[] args)
+    private static async Task<int> Main(string[] args)
     {
         if (args.Length == 0 || args[0] is "--help" or "-h" or "help")
         {
@@ -22,7 +23,7 @@ internal static class Program
         {
             "install" => HandleInstall(args[1..]),
             "update" => HandleUpdate(args[1..]),
-            "list" => HandleList(args[1..]),
+            "list" => await ListCommand.ExecuteAsync(args[1..]),
             "use" => HandleUse(args[1..]),
             "uninstall" => HandleUninstall(args[1..]),
             "self" => HandleSelf(args[1..]),
