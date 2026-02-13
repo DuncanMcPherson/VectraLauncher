@@ -81,12 +81,6 @@ internal static class Program
         return 0;
     }
 
-    private static int HandleList(string[] args)
-    {
-        Console.WriteLine("List command - Not yet implemented");
-        return 0;
-    }
-
     private static int HandleUse(string[] args)
     {
         Console.WriteLine("Use command - Not yet implemented");
