@@ -67,7 +67,7 @@ internal class VersionManager
     }
 
     // Update latestInstalledVersion after install/uninstall
-    private static void RecalculateLatestVersion(VectraConfiguration config)
+    internal static void RecalculateLatestVersion(VectraConfiguration config)
     {
         config.LatestInstalledVersion = string.Empty;
 
