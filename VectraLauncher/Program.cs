@@ -25,7 +25,7 @@ internal static class Program
             "update" => await UpdateCommand.ExecuteAsync(args[1..]),
             "list" => await ListCommand.ExecuteAsync(args[1..]),
             "use" => await UseCommand.ExecuteAsync(args[1..]),
-            "uninstall" => HandleUninstall(args[1..]),
+            "uninstall" => await UninstallCommand.ExecuteAsync(args[1..]),
             "self" => HandleSelf(args[1..]),
             _ => await PassThroughCommand.ExecuteAsync(args)
         };
@@ -67,18 +67,6 @@ internal static class Program
         var version = Assembly.GetExecutingAssembly()
             .GetName().Version;
         Console.WriteLine($"VectraLauncher v{version}");
-    }
-
-    private static int HandleUpdate(string[] _)
-    {
-        Console.WriteLine("Update command - Not yet implemented");
-        return 0;
-    }
-
-    private static int HandleUninstall(string[] _)
-    {
-        Console.WriteLine("Uninstall command - Not yet implemented");
-        return 0;
     }
 
     private static int HandleSelf(string[] args)
