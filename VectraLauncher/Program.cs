@@ -69,18 +69,6 @@ internal static class Program
         Console.WriteLine($"VectraLauncher v{version}");
     }
 
-    private static int HandleUpdate(string[] _)
-    {
-        Console.WriteLine("Update command - Not yet implemented");
-        return 0;
-    }
-
-    private static int HandleUninstall(string[] _)
-    {
-        Console.WriteLine("Uninstall command - Not yet implemented");
-        return 0;
-    }
-
     private static int HandleSelf(string[] args)
     {
         if (args.Length == 0)
