@@ -22,7 +22,7 @@ internal static class Program
         return args[0].ToLowerInvariant() switch
         {
             "install" => await InstallCommand.ExecuteAsync(args[1..]),
-            "update" => HandleUpdate(args[1..]),
+            "update" => await UpdateCommand.ExecuteAsync(args[1..]),
             "list" => await ListCommand.ExecuteAsync(args[1..]),
             "use" => await UseCommand.ExecuteAsync(args[1..]),
             "uninstall" => HandleUninstall(args[1..]),
