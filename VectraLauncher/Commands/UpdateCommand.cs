@@ -12,7 +12,7 @@ internal static class UpdateCommand
             return 1;
         }
 
-        var latestAvailable = await VersionManager.CheckForUpdatesAsync();
+        var latestAvailable = await VersionManager.CheckForUpdatesAsync(true);
         if (latestAvailable is null)
         {
             Console.WriteLine("No updates available");
