@@ -78,7 +78,7 @@ internal class VersionManager
         {
             if (SemanticVersion.TryParse(installed.Version, out var version))
             {
-                if (highest == null || version.CompareTo(highest.Value) > 0)
+                if (highest == null || version > highest.Value)
                 {
                     highest = version;
                     config.LatestInstalledVersion = installed.Version;

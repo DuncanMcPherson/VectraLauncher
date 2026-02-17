@@ -25,7 +25,7 @@ internal static class Program
             "update" => await UpdateCommand.ExecuteAsync(args[1..]),
             "list" => await ListCommand.ExecuteAsync(args[1..]),
             "use" => await UseCommand.ExecuteAsync(args[1..]),
-            "uninstall" => HandleUninstall(args[1..]),
+            "uninstall" => await UninstallCommand.ExecuteAsync(args[1..]),
             "self" => HandleSelf(args[1..]),
             _ => await PassThroughCommand.ExecuteAsync(args)
         };
