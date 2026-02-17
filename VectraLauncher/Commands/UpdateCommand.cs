@@ -19,14 +19,10 @@ internal static class UpdateCommand
             return 0;
         }
 
-        try
-        {
-            Console.WriteLine($"Updating to version: {latestAvailable}");
-            return await InstallCommand.ExecuteAsync([latestAvailable]);
-        }
-        finally
-        {
-            Console.WriteLine("Update complete");
-        }
+        Console.WriteLine($"Updating to version: {latestAvailable}");
+        var result = await InstallCommand.ExecuteAsync([latestAvailable]);
+        if (result == 0)
+            Console.WriteLine("Update Complete");
+        return result;
     }
 }
