@@ -31,6 +31,30 @@ internal static class PassThroughCommand
 
         process.Start();
         await process.WaitForExitAsync();
+
+        await CheckAndNotifyAsync();
+
         return process.ExitCode;
+    }
+
+    private static async Task CheckAndNotifyAsync()
+    {
+        var config = VersionManager.LoadConfiguration();
+        var latestAvailable = await VersionManager.CheckForUpdatesAsync();
+
+        if (latestAvailable == null)
+            return;
+        var current = config.LatestInstalledVersion;
+        var updateLine = $"  Update available: {current} -> {latestAvailable}  ";
+        var installLine = "  Run 'vecc update' to install  ";
+
+        var width = Math.Max(updateLine.Length, installLine.Length);
+        var border = new string('-', width);
+
+        Console.WriteLine();
+        Console.WriteLine($"+{border}+");
+        Console.WriteLine($"|{updateLine.PadRight(width)}|");
+        Console.WriteLine($"|{installLine.PadRight(width)}|");
+        Console.WriteLine($"+{border}+");
     }
 }
