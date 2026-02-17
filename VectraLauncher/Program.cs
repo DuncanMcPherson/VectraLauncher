@@ -26,7 +26,7 @@ internal static class Program
             "list" => await ListCommand.ExecuteAsync(args[1..]),
             "use" => await UseCommand.ExecuteAsync(args[1..]),
             "uninstall" => await UninstallCommand.ExecuteAsync(args[1..]),
-            "self" => HandleSelf(args[1..]),
+            "self" => await SelfCommand.ExecuteAsync(args[1..]),
             _ => await PassThroughCommand.ExecuteAsync(args)
         };
     }
@@ -67,34 +67,5 @@ internal static class Program
         var version = Assembly.GetExecutingAssembly()
             .GetName().Version;
         Console.WriteLine($"VectraLauncher v{version}");
-    }
-
-    private static int HandleSelf(string[] args)
-    {
-        if (args.Length == 0)
-        {
-            Console.WriteLine("Error: 'self' command requires a subcommand");
-            Console.WriteLine("Available: self install");
-            return 1;
-        }
-
-        return args[0].ToLowerInvariant() switch
-        {
-            "install" => HandleSelfInstall(args[1..]),
-            _ => HandleUnknownSelfCommand(args[0])
-        };
-    }
-
-    private static int HandleSelfInstall(string[] _)
-    {
-        Console.WriteLine("Self install command - Not yet implemented");
-        return 0;
-    }
-
-    private static int HandleUnknownSelfCommand(string command)
-    {
-        Console.WriteLine($"Error: Unknown self command '{command}'");
-        Console.WriteLine("Available: self install");
-        return 1;
     }
 }
