@@ -27,6 +27,7 @@ internal static class Program
             "use" => await UseCommand.ExecuteAsync(args[1..]),
             "uninstall" => await UninstallCommand.ExecuteAsync(args[1..]),
             "self" => await SelfCommand.ExecuteAsync(args[1..]),
+            "config" => await ConfigCommand.ExecuteAsync(args[1..]),
             _ => await PassThroughCommand.ExecuteAsync(args)
         };
     }
@@ -47,6 +48,7 @@ internal static class Program
         Console.WriteLine("  use <version>        Set the specified version as the active compiler");
         Console.WriteLine("  uninstall <version>  Remove the specified version from your system");
         Console.WriteLine("  self install         Add VectraLauncher to your system PATH");
+        Console.WriteLine("  config CheckDays 7   Update how frequently to check for updates (in days)");
         Console.WriteLine();
         Console.WriteLine("Options:");
         Console.WriteLine("  --help, -h           Show this help message");
