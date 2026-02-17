@@ -20,6 +20,17 @@ internal static class InstallCommand
 
         var version = args[0];
 
+        if (version.ToLowerInvariant() == "latest")
+        {
+            var latestAvailable = await VersionManager.CheckForUpdatesAsync();
+            if (latestAvailable is null)
+            {
+                Console.WriteLine("No updates available");
+                return 0;
+            }
+            version = latestAvailable;
+        }
+
         if (!SemanticVersion.TryParse(version, out _))
         {
             Console.WriteLine($"Error: Invalid version format '{version}'. Expected format: x.y.z");

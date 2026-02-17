@@ -27,7 +27,7 @@ internal static class Program
             "use" => await UseCommand.ExecuteAsync(args[1..]),
             "uninstall" => HandleUninstall(args[1..]),
             "self" => HandleSelf(args[1..]),
-            _ => PassToCompiler(args)
+            _ => await PassThroughCommand.ExecuteAsync(args)
         };
     }
 
@@ -108,12 +108,5 @@ internal static class Program
         Console.WriteLine($"Error: Unknown self command '{command}'");
         Console.WriteLine("Available: self install");
         return 1;
-    }
-
-    private static int PassToCompiler(string[] args)
-    {
-        Console.WriteLine("Compiler pass-through - Not yet implemented");
-        Console.WriteLine($"Would execute compiler with: {string.Join(" ", args)}");
-        return 0;
     }
 }
