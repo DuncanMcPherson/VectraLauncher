@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Octokit;
 using VectraLauncher.Models;
 
 namespace VectraLauncher.Utilities;
@@ -92,6 +93,34 @@ internal class VersionManager
         else
         {
             config.ResolvedActiveVersion = config.ActiveVersion;
+        }
+    }
+
+    internal static async Task<string?> CheckForUpdatesAsync()
+    {
+        var activeConfig = LoadConfiguration();
+        try
+        {
+            if (activeConfig.LastUpdateCheck is not null && DateTime.Now <=
+                activeConfig.LastUpdateCheck.Value.AddDays(activeConfig.AutoUpdateCheckFrequencyDays)) return null;
+            var client = new GitHubClient(new ProductHeaderValue("vecc"));
+            var releases = await client.Repository.Release.GetAll("DuncanMcPherson", "vectra");
+            var latestRelease = releases.OrderByDescending(r =>
+            {
+                var version = r.TagName.TrimStart('v');
+                SemanticVersion.TryParse(version, out var parsed);
+                return parsed;
+            }).First();
+            activeConfig.LastUpdateCheck = DateTime.Now;
+
+            SemanticVersion.TryParse(activeConfig.LatestInstalledVersion, out var installed);
+            SemanticVersion.TryParse(latestRelease.TagName.TrimStart('v'), out var latest);
+
+            return latest > installed ? latestRelease.TagName.TrimStart('v') : null;
+        }
+        finally
+        {
+            SaveConfiguration(activeConfig);
         }
     }
 }
