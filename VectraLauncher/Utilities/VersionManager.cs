@@ -96,13 +96,16 @@ internal class VersionManager
         }
     }
 
-    internal static async Task<string?> CheckForUpdatesAsync()
+    internal static async Task<string?> CheckForUpdatesAsync(bool force = false)
     {
         var activeConfig = LoadConfiguration();
         try
         {
-            if (activeConfig.LastUpdateCheck is not null && DateTime.Now <=
-                activeConfig.LastUpdateCheck.Value.AddDays(activeConfig.AutoUpdateCheckFrequencyDays)) return null;
+            if (!force)
+            {
+                if (activeConfig.LastUpdateCheck is not null && DateTime.Now <=
+                    activeConfig.LastUpdateCheck.Value.AddDays(activeConfig.AutoUpdateCheckFrequencyDays)) return null;
+            }
             var client = new GitHubClient(new ProductHeaderValue("vecc"));
             var releases = await client.Repository.Release.GetAll("DuncanMcPherson", "vectra");
             var latestRelease = releases.OrderByDescending(r =>

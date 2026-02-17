@@ -22,7 +22,7 @@ internal static class InstallCommand
 
         if (version.ToLowerInvariant() == "latest")
         {
-            var latestAvailable = await VersionManager.CheckForUpdatesAsync();
+            var latestAvailable = await VersionManager.CheckForUpdatesAsync(true);
             if (latestAvailable is null)
             {
                 Console.WriteLine("No updates available");
