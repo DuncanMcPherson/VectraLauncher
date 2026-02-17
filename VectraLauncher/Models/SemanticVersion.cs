@@ -44,4 +44,14 @@ internal readonly struct SemanticVersion : IComparable<SemanticVersion>
     }
 
     public override string ToString() => $"{Major}.{Minor}.{Patch}";
+    
+    public static bool operator >(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) > 0;
+    public static bool operator <(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) < 0;
+    public static bool operator <=(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) <= 0;
+    public static bool operator >=(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) >= 0;
+    public static bool operator ==(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) == 0;
+    public static bool operator !=(SemanticVersion left, SemanticVersion right) => left.CompareTo(right) != 0;
+    
+    public override bool Equals(object? obj) => obj is SemanticVersion other && CompareTo(other) == 0;
+    public override int GetHashCode() => HashCode.Combine(Major, Minor, Patch);
 }
